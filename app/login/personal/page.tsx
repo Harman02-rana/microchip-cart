@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { loginUser } from "@/lib/auth";
+import { supabase } from "@/lib/supabase";
 
 export default function PersonalLoginPage() {
   const router = useRouter();
@@ -42,8 +43,33 @@ export default function PersonalLoginPage() {
     }
 
     if (data.user) {
-      router.push("/dashboard");
-    }
+
+  const { data: profile } =
+    await supabase
+      .from("profiles")
+      .select("account_type")
+      .eq("id", data.user.id)
+      .single();
+
+  const type =
+    profile?.account_type;
+
+  if (type === "business") {
+    router.push(
+      "/business/dashboard"
+    );
+  }
+
+  else if (type === "bulk") {
+    router.push(
+      "/bulk/dashboard"
+    );
+  }
+
+  else {
+    router.push("/dashboard");
+  }
+}
 
     setLoading(false);
   }
@@ -54,9 +80,9 @@ export default function PersonalLoginPage() {
       <div className="w-full max-w-md bg-zinc-900 border border-zinc-800 rounded-3xl p-10">
 
         <h1 className="text-5xl font-black mb-2">
-          MC{" "}
+          MicroChip {" "}
           <span className="text-green-400">
-            CHIP
+            Cart
           </span>
         </h1>
 
@@ -106,20 +132,36 @@ export default function PersonalLoginPage() {
           </div>
 
           {error && (
-            <div className="bg-red-500/10 border border-red-500 text-red-400 rounded-2xl px-4 py-3">
+            <div className="bg-[#0B1120]
+border border-blue-500/20
+backdrop-blur-xl
+shadow-2xl shadow-blue-500/10
+rounded-3xl">
               {error}
             </div>
           )}
 
           <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-green-500 hover:bg-green-400 text-black py-4 rounded-2xl font-bold transition"
-          >
-            {loading
-              ? "Signing In..."
-              : "Sign In"}
-          </button>
+  type="submit"
+  disabled={loading}
+  className="
+    w-full
+    rounded-xl
+    bg-blue-600
+    hover:bg-blue-700
+    transition-all
+    duration-300
+    py-4
+    text-lg
+    font-semibold
+    text-white
+    shadow-lg
+    shadow-blue-500/20
+    disabled:opacity-50
+  "
+>
+  {loading ? "Signing In..." : "Sign In"}
+</button>
 
         </form>
 

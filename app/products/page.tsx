@@ -11,6 +11,8 @@ import { supabase } from "@/lib/supabase";
 
 import { Product } from "@/types/product";
 
+import { useSearch } from "@/context/SearchContext";
+
 export default function ProductsPage() {
   const [products, setProducts] =
     useState<Product[]>([]);

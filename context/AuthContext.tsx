@@ -39,6 +39,33 @@ export function AuthProvider({
   const [loading, setLoading] =
     useState(true);
 
+  async function fetchProfile(
+    authUser: any
+  ) {
+    if (!authUser) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
+    const { data: profile } =
+      await supabase
+        .from("profiles")
+        .select("account_type")
+        .eq("id", authUser.id)
+        .single();
+
+    setUser({
+      id: authUser.id,
+      email: authUser.email || "",
+      account_type:
+        profile?.account_type ||
+        "personal",
+    });
+
+    setLoading(false);
+  }
+
   useEffect(() => {
     async function loadUser() {
       const {
@@ -46,28 +73,7 @@ export function AuthProvider({
       } =
         await supabase.auth.getUser();
 
-      if (!user) {
-        setUser(null);
-        setLoading(false);
-        return;
-      }
-
-      const profile =
-        await supabase
-          .from("profiles")
-          .select("account_type")
-          .eq("id", user.id)
-          .single();
-
-      setUser({
-        id: user.id,
-        email: user.email || "",
-        account_type:
-          profile.data
-            ?.account_type || "",
-      });
-
-      setLoading(false);
+      await fetchProfile(user);
     }
 
     loadUser();
@@ -80,33 +86,9 @@ export function AuthProvider({
           _event,
           session
         ) => {
-          if (!session?.user) {
-            setUser(null);
-            return;
-          }
-
-          const profile =
-            await supabase
-              .from("profiles")
-              .select(
-                "account_type"
-              )
-              .eq(
-                "id",
-                session.user.id
-              )
-              .single();
-
-          setUser({
-            id: session.user.id,
-            email:
-              session.user.email ||
-              "",
-            account_type:
-              profile.data
-                ?.account_type ||
-              "",
-          });
+          await fetchProfile(
+            session?.user
+          );
         }
       );
 
@@ -119,6 +101,8 @@ export function AuthProvider({
     await supabase.auth.signOut();
 
     setUser(null);
+
+    window.location.href = "/";
   }
 
   return (

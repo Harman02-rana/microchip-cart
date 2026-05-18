@@ -17,6 +17,10 @@ import { useCart } from "@/context/CartContext";
 
 import { useAuth } from "@/context/AuthContext";
 
+import { useSearch } from "@/context/SearchContext";
+
+
+
 export default function Navbar() {
   const router = useRouter();
 
@@ -24,6 +28,9 @@ export default function Navbar() {
 
   const { user, logout } =
     useAuth();
+
+    const { search, setSearch } =
+  useSearch(); 
 
   async function handleLogout() {
     await logout();
@@ -60,11 +67,14 @@ export default function Navbar() {
           <div className="relative w-full">
 
             <input
-              type="text"
-              placeholder="Search microchips, processors, ICs..."
-              className="w-full bg-[#050B18] border border-blue-900/40 text-white rounded-2xl py-3 pl-5 pr-14 outline-none focus:border-blue-500 transition"
-            />
-
+  type="text"
+  value={search}
+  onChange={(e) =>
+    setSearch(e.target.value)
+  }
+  placeholder="Search microchips, processors, ICs..."
+  className="w-full bg-[#050B18] border border-blue-900/40 text-white rounded-2xl py-3 pl-5 pr-14 outline-none focus:border-blue-500 transition"
+/>
             <Search
               size={20}
               className="absolute right-5 top-3.5 text-blue-300"

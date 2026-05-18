@@ -4,26 +4,28 @@ import {
   createContext,
   useContext,
   useState,
-  ReactNode,
 } from "react";
 
 type SearchContextType = {
   search: string;
-  setSearch: (value: string) => void;
+  setSearch: (
+    value: string
+  ) => void;
 };
 
-const SearchContext = createContext<SearchContextType>({
-  search: "",
-  setSearch: () => {},
-});
+const SearchContext =
+  createContext<SearchContextType>({
+    search: "",
+    setSearch: () => {},
+  });
 
 export function SearchProvider({
   children,
 }: {
-  children: ReactNode;
+  children: React.ReactNode;
 }) {
-
-  const [search, setSearch] = useState("");
+  const [search, setSearch] =
+    useState("");
 
   return (
     <SearchContext.Provider
@@ -37,4 +39,5 @@ export function SearchProvider({
   );
 }
 
-export const useSearch = () => useContext(SearchContext);
+export const useSearch = () =>
+  useContext(SearchContext);
