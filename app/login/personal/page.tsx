@@ -81,7 +81,7 @@ export default function PersonalLoginPage() {
 
         <h1 className="text-5xl font-black mb-2">
           MicroChip {" "}
-          <span className="text-green-400">
+          <span className="text-blue-600">
             Cart
           </span>
         </h1>
@@ -136,7 +136,7 @@ export default function PersonalLoginPage() {
 border border-blue-500/20
 backdrop-blur-xl
 shadow-2xl shadow-blue-500/10
-rounded-3xl">
+rounded-3xl ">
               {error}
             </div>
           )}
@@ -169,7 +169,7 @@ rounded-3xl">
           Don&apos;t have an account?{" "}
           <Link
             href="/register/personal"
-            className="text-green-400 hover:text-green-300"
+            className="text-blue-600 hover:text-blue-400"
           >
             Create Account
           </Link>
