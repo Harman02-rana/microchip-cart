@@ -1,172 +1,126 @@
 "use client";
 
 import Link from "next/link";
-
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Search,
   ShoppingCart,
-  PackageCheck,
-  LayoutDashboard,
-  LogOut,
+  Package,
   User,
 } from "lucide-react";
-
-import { useRouter } from "next/navigation";
-
-import { useCart } from "@/context/CartContext";
-
-import { useAuth } from "@/context/AuthContext";
-
-import { useSearch } from "@/context/SearchContext";
-
-
 
 export default function Navbar() {
   const router = useRouter();
 
-  const { cart } = useCart();
+  const [search, setSearch] = useState("");
 
-  const { user, logout } =
-    useAuth();
+  const handleSearch = () => {
+    if (!search.trim()) return;
 
-    const { search, setSearch } =
-  useSearch(); 
-
-  async function handleLogout() {
-    await logout();
-
-    router.push("/");
-  }
+    router.push(
+      `/products?search=${encodeURIComponent(search)}`
+    );
+  };
 
   return (
-    <nav className="w-full bg-black border-b border-blue-950 sticky top-0 z-50">
-
-      <div className="w-full px-10 h-24 flex items-center">
-
+    <nav className="w-full bg-black border-b border-blue-900 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-6">
+        
         {/* LOGO */}
+        <Link href="/" className="flex flex-col leading-none">
+          <span className="text-white text-4xl font-extrabold tracking-tight">
+            MICROCHIP
+          </span>
 
-        <Link
-          href="/"
-          className="flex items-center mr-12"
-        >
-          <h1 className="text-5xl font-black tracking-tight text-white">
-
-            MICROCHIP{" "}
-
-            <span className="text-blue-500">
-              CART
-            </span>
-
-          </h1>
+          <span className="text-blue-500 text-4xl font-extrabold tracking-tight">
+            CART
+          </span>
         </Link>
 
         {/* SEARCH BAR */}
+        <div className="hidden md:flex flex-1 max-w-xl items-center bg-[#050b1f] border border-blue-700 rounded-2xl px-4 py-3">
+          <input
+            type="text"
+            placeholder="Search microchips, processors, ICs..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch();
+              }
+            }}
+            className="flex-1 bg-transparent outline-none text-white placeholder:text-gray-500"
+          />
 
-        <div className="hidden lg:flex w-[520px] mr-auto">
-
-          <div className="relative w-full">
-
-            <input
-  type="text"
-  value={search}
-  onChange={(e) =>
-    setSearch(e.target.value)
-  }
-  placeholder="Search microchips, processors, ICs..."
-  className="w-full bg-[#050B18] border border-blue-900/40 text-white rounded-2xl py-3 pl-5 pr-14 outline-none focus:border-blue-500 transition"
-/>
-            <Search
-              size={20}
-              className="absolute right-5 top-3.5 text-blue-300"
-            />
-
-          </div>
-
+          <button onClick={handleSearch}>
+            <Search className="text-blue-500 cursor-pointer hover:scale-110 transition-transform" />
+          </button>
         </div>
 
         {/* NAV LINKS */}
-
-        <div className="flex items-center gap-8 text-white ml-10">
-
+        <div className="flex items-center gap-6 text-white">
           <Link
             href="/products"
-            className="hover:text-blue-400 transition font-medium"
+            className="hover:text-blue-400 transition"
           >
             Products
           </Link>
 
           <Link
             href="/cart"
-            className="hover:text-blue-400 transition flex items-center gap-2 font-medium"
+            className="flex items-center gap-2 hover:text-blue-400 transition"
           >
-            <ShoppingCart size={18} />
-
-            Cart
-
-            <span className="text-blue-400">
-              ({cart.length})
-            </span>
+            <ShoppingCart size={20} />
+            <span>Cart</span>
           </Link>
 
           <Link
             href="/orders"
-            className="hover:text-blue-400 transition flex items-center gap-2 font-medium"
+            className="flex items-center gap-2 hover:text-blue-400 transition"
           >
-            <PackageCheck size={18} />
-
-            Orders
+            <Package size={20} />
+            <span>Orders</span>
           </Link>
 
-          {/* USER LOGGED IN */}
+          <Link
+            href="/login/personal"
+            className="flex items-center gap-2 hover:text-blue-400 transition"
+          >
+            <User size={20} />
+            <span>Login</span>
+          </Link>
 
-          {user ? (
-            <>
-              <Link
-                href="/dashboard"
-                className="hover:text-blue-400 transition flex items-center gap-2 font-medium"
-              >
-                <LayoutDashboard
-                  size={18}
-                />
-
-                Dashboard
-              </Link>
-
-              <button
-                onClick={
-                  handleLogout
-                }
-                className="bg-blue-600 hover:bg-blue-500 px-5 py-2.5 rounded-xl transition font-semibold flex items-center gap-2"
-              >
-                <LogOut size={17} />
-
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link
-                href="/login/personal"
-                className="hover:text-blue-400 transition flex items-center gap-2 font-medium"
-              >
-                <User size={18} />
-
-                Login
-              </Link>
-
-              <Link
-                href="/register/personal"
-                className="bg-blue-600 hover:bg-blue-500 px-6 py-2.5 rounded-xl transition font-semibold"
-              >
-                Register
-              </Link>
-            </>
-          )}
-
+          <Link
+            href="/register"
+            className="bg-blue-600 hover:bg-blue-700 transition px-5 py-2 rounded-xl font-semibold"
+          >
+            Register
+          </Link>
         </div>
-
       </div>
 
+      {/* MOBILE SEARCH */}
+      <div className="md:hidden px-4 pb-4">
+        <div className="flex items-center bg-[#050b1f] border border-blue-700 rounded-2xl px-4 py-3">
+          <input
+            type="text"
+            placeholder="Search..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearch();
+              }
+            }}
+            className="flex-1 bg-transparent outline-none text-white placeholder:text-gray-500"
+          />
+
+          <button onClick={handleSearch}>
+            <Search className="text-blue-500" />
+          </button>
+        </div>
+      </div>
     </nav>
   );
 }
