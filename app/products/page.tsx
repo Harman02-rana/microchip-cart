@@ -1,6 +1,10 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+
+import {
+  useSearchParams,
+} from "next/navigation";
 
 import ProductCard from "@/components/ProductCard";
 
@@ -60,7 +64,7 @@ const products = [
   },
 ];
 
-export default function ProductsPage() {
+function ProductsContent() {
 
   const searchParams =
     useSearchParams();
@@ -155,5 +159,24 @@ export default function ProductsPage() {
       )}
 
     </main>
+  );
+}
+
+export default function ProductsPage() {
+
+  return (
+
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#020817] text-white flex items-center justify-center text-2xl">
+          Loading Products...
+        </div>
+      }
+    >
+
+      <ProductsContent />
+
+    </Suspense>
+
   );
 }
