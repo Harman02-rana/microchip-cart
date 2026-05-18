@@ -1,147 +1,150 @@
 "use client";
 
 import { useState } from "react";
-
-import Link from "next/link";
-
 import { useRouter } from "next/navigation";
-
+import Link from "next/link";
 import { signUpUser } from "@/lib/auth";
 
 export default function BulkRegisterPage() {
   const router = useRouter();
 
-  const [companyName, setCompanyName] =
-    useState("");
+  const [fullName, setFullName] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [fullName, setFullName] =
-    useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const [phone, setPhone] =
-    useState("");
-
-  const [email, setEmail] =
-    useState("");
-
-  const [password, setPassword] =
-    useState("");
-
-  const [loading, setLoading] =
-    useState(false);
-
-  const [error, setError] =
-    useState("");
-
-  async function handleSignup(
+  const handleRegister = async (
     e: React.FormEvent
-  ) {
+  ) => {
     e.preventDefault();
 
-    setLoading(true);
+    try {
+      setLoading(true);
+      setError("");
 
-    const { error } =
-      await signUpUser(
+      const { error } = await signUpUser(
         email,
         password,
         {
           full_name: fullName,
           phone,
           company_name: companyName,
-        },
-        "bulk"
+          account_type: "bulk",
+        }
       );
 
-    setLoading(false);
+      if (error) {
+        setError(error.message);
+        return;
+      }
 
-    if (error) {
-      setError(error.message);
-      return;
+      alert("Account created successfully!");
+
+      router.push("/login/bulk");
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-
-    router.push("/bulk/dashboard");
-  }
+  };
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center px-6 py-12">
-
-      <div className="w-full max-w-lg bg-zinc-900 border border-zinc-800 rounded-3xl p-10">
-
-        <h1 className="text-5xl font-black mb-8">
-          Bulk Buyer Account
+    <div className="min-h-screen bg-black text-white flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-[#071028] border border-blue-900 rounded-2xl p-8 shadow-2xl">
+        <h1 className="text-3xl font-bold mb-6 text-center">
+          Bulk Buyer Register
         </h1>
 
         <form
-          onSubmit={handleSignup}
+          onSubmit={handleRegister}
           className="space-y-5"
         >
+          <div>
+            <label className="block mb-2 text-sm">
+              Full Name
+            </label>
 
-          <input
-            type="text"
-            placeholder="Company Name"
-            value={companyName}
-            onChange={(e) =>
-              setCompanyName(
-                e.target.value
-              )
-            }
-            className="w-full bg-black border border-zinc-700 rounded-2xl px-5 py-4"
-            required
-          />
+            <input
+              type="text"
+              required
+              value={fullName}
+              onChange={(e) =>
+                setFullName(e.target.value)
+              }
+              className="w-full px-4 py-3 rounded-lg bg-gray-200 text-black outline-none"
+            />
+          </div>
 
-          <input
-            type="text"
-            placeholder="Full Name"
-            value={fullName}
-            onChange={(e) =>
-              setFullName(
-                e.target.value
-              )
-            }
-            className="w-full bg-black border border-zinc-700 rounded-2xl px-5 py-4"
-            required
-          />
+          <div>
+            <label className="block mb-2 text-sm">
+              Company Name
+            </label>
 
-          <input
-            type="text"
-            placeholder="Phone"
-            value={phone}
-            onChange={(e) =>
-              setPhone(
-                e.target.value
-              )
-            }
-            className="w-full bg-black border border-zinc-700 rounded-2xl px-5 py-4"
-            required
-          />
+            <input
+              type="text"
+              required
+              value={companyName}
+              onChange={(e) =>
+                setCompanyName(e.target.value)
+              }
+              className="w-full px-4 py-3 rounded-lg bg-gray-200 text-black outline-none"
+            />
+          </div>
 
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) =>
-              setEmail(
-                e.target.value
-              )
-            }
-            className="w-full bg-black border border-zinc-700 rounded-2xl px-5 py-4"
-            required
-          />
+          <div>
+            <label className="block mb-2 text-sm">
+              Phone Number
+            </label>
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) =>
-              setPassword(
-                e.target.value
-              )
-            }
-            className="w-full bg-black border border-zinc-700 rounded-2xl px-5 py-4"
-            required
-          />
+            <input
+              type="text"
+              required
+              value={phone}
+              onChange={(e) =>
+                setPhone(e.target.value)
+              }
+              className="w-full px-4 py-3 rounded-lg bg-gray-200 text-black outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-2 text-sm">
+              Email Address
+            </label>
+
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
+              className="w-full px-4 py-3 rounded-lg bg-gray-200 text-black outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-2 text-sm">
+              Password
+            </label>
+
+            <input
+              type="password"
+              required
+              value={password}
+              onChange={(e) =>
+                setPassword(e.target.value)
+              }
+              className="w-full px-4 py-3 rounded-lg bg-gray-200 text-black outline-none"
+            />
+          </div>
 
           {error && (
-            <div className="text-red-400">
+            <div className="bg-red-500/20 border border-red-500 text-red-400 text-sm p-3 rounded-lg">
               {error}
             </div>
           )}
@@ -149,30 +152,24 @@ export default function BulkRegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-green-500 hover:bg-green-400 text-black py-4 rounded-2xl font-bold"
+            className="w-full bg-blue-600 hover:bg-blue-700 transition-all py-3 rounded-lg font-semibold"
           >
             {loading
-              ? "Creating..."
-              : "Create Bulk Account"}
+              ? "Creating Account..."
+              : "Create Account"}
           </button>
-
         </form>
 
-        <div className="mt-8 text-zinc-400 text-sm">
-
-          Already have account?{" "}
-
+        <p className="text-center text-gray-400 mt-6">
+          Already have an account?{" "}
           <Link
             href="/login/bulk"
-            className="text-green-400"
+            className="text-blue-400 hover:underline"
           >
-            Login
+            Sign In
           </Link>
-
-        </div>
-
+        </p>
       </div>
-
     </div>
   );
 }

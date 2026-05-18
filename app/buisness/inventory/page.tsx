@@ -24,21 +24,19 @@ export default function InventoryPage() {
     if (!user) return;
 
     async function fetchProducts() {
-      const { data, error } =
-        await supabase
-          .from("products")
-          .select("*")
-          .eq(
-            "seller_id",
-            user.id
-          );
+  if (!user) return;
 
-      if (!error && data) {
-        setProducts(data);
-      }
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("seller_id", user.id);
 
-      setLoading(false);
-    }
+  if (!error && data) {
+    setProducts(data);
+  }
+
+  setLoading(false);
+}
 
     fetchProducts();
   }, [user]);
