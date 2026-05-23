@@ -2,223 +2,140 @@
 
 import Link from "next/link";
 
+import {
+  Cpu,
+  ShieldCheck,
+  Truck,
+  Zap,
+} from "lucide-react";
+
 import { motion } from "framer-motion";
 
-import { ShieldCheck } from "lucide-react";
+const stats = [
+  {
+    icon: Cpu,
+    value: "10K+",
+    label: "Components",
+  },
+  {
+    icon: Truck,
+    value: "Global",
+    label: "Shipping",
+  },
+  {
+    icon: ShieldCheck,
+    value: "99.9%",
+    label: "Quality",
+  },
+  {
+    icon: Zap,
+    value: "24/7",
+    label: "Support",
+  },
+];
 
 export default function Hero() {
-
   return (
-    <section
-      className="
-        relative
-        overflow-hidden
-        px-6
-        pt-16
-      "
-    >
+    <section className="relative overflow-hidden border-b border-white/10 px-6 py-20 lg:px-10">
+      <div className="hero-grid absolute inset-0 opacity-70" />
 
-      {/* BACKGROUND GLOW */}
+      <div className="absolute right-10 top-20 h-[500px] w-[500px] rounded-full bg-blue-500/20 blur-[140px]" />
+      <div className="absolute bottom-10 left-0 h-[360px] w-[360px] rounded-full bg-cyan-500/10 blur-[120px]" />
 
-      <div
-        className="
-          absolute
-          right-0 top-0
-          h-[500px] w-[500px]
-          rounded-full
-          bg-cyan-500/10
-          blur-3xl
-        "
-      />
-
-      <div
-        className="
-          mx-auto
-          grid
-          max-w-7xl
-          gap-16
-          lg:grid-cols-2
-          lg:items-center
-        "
-      >
-
-        {/* LEFT */}
-
+      <div className="relative z-10 mx-auto grid min-h-[calc(100vh-5rem)] max-w-7xl items-center gap-16 lg:grid-cols-[1.05fr_0.95fr]">
         <motion.div
-
           initial={{
             opacity: 0,
-            y: 40,
+            y: 32,
           }}
-
           animate={{
             opacity: 1,
             y: 0,
           }}
-
           transition={{
-            duration: 0.6,
+            duration: 0.55,
           }}
         >
-
-          {/* BADGE */}
-
-          <div
-            className="
-              inline-flex
-              items-center gap-2
-              rounded-full
-              border border-cyan-400/20
-              bg-cyan-400/10
-              px-5 py-2
-              text-cyan-300
-            "
-          >
-
-            <ShieldCheck size={18} />
-
-            Trusted Semiconductor Marketplace
-
+          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-5 py-2 text-sm font-medium text-blue-300">
+            <Zap size={18} />
+            AI Powered Semiconductor Marketplace
           </div>
 
-          {/* TITLE */}
-
-          <h1
-            className="
-              mt-8
-              text-7xl
-              font-black
-              leading-[1.05]
-              tracking-tight
-              text-white
-            "
-          >
-            Enterprise
+          <h1 className="max-w-5xl text-5xl font-black leading-[1.02] text-white md:text-6xl lg:text-7xl">
+            Powering the Future with Smart{" "}
+            <span className="text-blue-500">Microchip</span>
             <br />
-            Semiconductor
-            <br />
-            Marketplace
+            Solutions
           </h1>
 
-          {/* TEXT */}
-
-          <p
-            className="
-              mt-8
-              max-w-2xl
-              text-xl
-              leading-9
-              text-gray-400
-            "
-          >
-            Source processors, GPUs,
-            AI accelerators,
-            microcontrollers,
-            and enterprise hardware
-            directly from verified suppliers.
+          <p className="mt-8 max-w-2xl text-lg leading-8 text-slate-400 md:text-xl">
+            High-performance microchips and electronic components engineered
+            for industrial systems, robotics, IoT infrastructure, embedded
+            computing and AI hardware.
           </p>
 
-          {/* BUTTONS */}
-
-          <div
-            className="
-              mt-10
-              flex flex-wrap gap-5
-            "
-          >
-
+          <div className="mt-10 flex flex-wrap gap-5">
             <Link
               href="/products"
-              className="
-                rounded-2xl
-                bg-cyan-400
-                px-8 py-5
-                text-lg
-                font-bold
-                text-black
-                transition-all
-                hover:bg-cyan-300
-              "
+              className="inline-flex h-14 items-center gap-3 rounded-2xl bg-blue-600 px-8 text-lg font-bold text-white shadow-lg shadow-blue-500/30 transition hover:bg-blue-500"
             >
-              Browse Products
+              <Cpu size={22} />
+              Explore Products
             </Link>
 
             <Link
-              href="/auth/business/register"
-              className="
-                rounded-2xl
-                border border-white/10
-                bg-white/5
-                px-8 py-5
-                text-lg
-                font-semibold
-                text-white
-                transition-all
-                hover:bg-white/10
-              "
+              href="/bulk/dashboard/rfq"
+              className="inline-flex h-14 items-center rounded-2xl border border-blue-500/40 px-8 text-lg font-bold text-white transition hover:border-blue-400 hover:bg-blue-500/10"
             >
-              Become Supplier
+              Request Quote
             </Link>
-
           </div>
 
+          <div className="mt-14 grid grid-cols-2 gap-4 md:grid-cols-4">
+            {stats.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <div
+                  key={item.label}
+                  className="rounded-2xl border border-white/10 bg-[#0B1120]/80 p-5 backdrop-blur-md transition hover:border-blue-500/40"
+                >
+                  <Icon className="mb-3 text-blue-500" size={28} />
+                  <p className="text-2xl font-black text-white">
+                    {item.value}
+                  </p>
+                  <p className="mt-1 text-sm text-slate-400">
+                    {item.label}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
         </motion.div>
 
-        {/* RIGHT CARD */}
-
         <motion.div
-
           initial={{
             opacity: 0,
-            x: 40,
+            x: 36,
           }}
-
           animate={{
             opacity: 1,
             x: 0,
           }}
-
           transition={{
-            duration: 0.6,
+            duration: 0.55,
           }}
-
-          className="
-            rounded-[36px]
-            border border-white/10
-            bg-[#081225]
-            p-8
-            shadow-2xl
-            shadow-cyan-500/10
-          "
+          className="relative"
         >
+          <div className="absolute inset-0 rounded-full bg-blue-500/20 blur-[120px]" />
 
-          <div
-            className="
-              flex h-[500px]
-              items-center
-              justify-center
-              rounded-[28px]
-              bg-gradient-to-br
-              from-cyan-500/10
-              to-blue-500/5
-            "
-          >
-
-            <div
-              className="
-                text-[140px]
-                drop-shadow-[0_0_40px_rgba(34,211,238,0.3)]
-              "
-            >
-              💾
-            </div>
-
-          </div>
-
+          <img
+            src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop"
+            alt="Microchip circuit board"
+            className="relative aspect-[4/3] w-full rounded-[40px] border border-blue-500/30 object-cover shadow-2xl shadow-blue-500/20"
+          />
         </motion.div>
-
       </div>
-
     </section>
   );
 }
