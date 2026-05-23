@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-
 import {
   Mail,
   Lock,
@@ -9,18 +8,12 @@ import {
 } from "lucide-react";
 
 import { useState } from "react";
-
 import { useRouter } from "next/navigation";
-
-import { useAuth } from "@/context/AuthContext";
 
 import AuthLayout from "./AuthLayout";
 
 export default function LoginForm() {
-
   const router = useRouter();
-
-  const { login } = useAuth();
 
   const [email, setEmail] =
     useState("");
@@ -34,66 +27,58 @@ export default function LoginForm() {
   async function handleLogin(
     e: React.FormEvent
   ) {
-
     e.preventDefault();
 
     try {
-
       setLoading(true);
 
-      login({
-        name: "Enterprise User",
-        email,
-        role: "personal",
-      });
+      // fake login
+      localStorage.setItem(
+        "mc_role",
+        "personal"
+      );
 
       localStorage.setItem(
-  "mc_role",
-  "personal"
-);
+        "mc_user",
+        JSON.stringify({
+          name: "Enterprise User",
+          email,
+        })
+      );
 
-window.location.href = "/";
+      router.push("/");
 
     } catch {
-
       alert("Login failed");
 
     } finally {
-
       setLoading(false);
-
     }
   }
 
   return (
     <AuthLayout
       title="Welcome Back"
-      subtitle="
-        Access your procurement
-        dashboard and marketplace
-        inventory.
-      "
+      subtitle="Access your procurement dashboard and marketplace inventory."
     >
-
       <form
         onSubmit={handleLogin}
         className="space-y-6"
       >
-
         {/* EMAIL */}
 
         <div>
-
-          <label className="
-            mb-3 block
-            text-sm font-medium
-            text-gray-300
-          ">
+          <label
+            className="
+              mb-3 block
+              text-sm font-medium
+              text-gray-300
+            "
+          >
             Email Address
           </label>
 
           <div className="relative">
-
             <Mail
               size={20}
               className="
@@ -123,24 +108,23 @@ window.location.href = "/";
                 focus:border-cyan-400
               "
             />
-
           </div>
         </div>
 
         {/* PASSWORD */}
 
         <div>
-
-          <label className="
-            mb-3 block
-            text-sm font-medium
-            text-gray-300
-          ">
+          <label
+            className="
+              mb-3 block
+              text-sm font-medium
+              text-gray-300
+            "
+          >
             Password
           </label>
 
           <div className="relative">
-
             <Lock
               size={20}
               className="
@@ -170,26 +154,25 @@ window.location.href = "/";
                 focus:border-cyan-400
               "
             />
-
           </div>
         </div>
 
         {/* OPTIONS */}
 
-        <div className="
-          flex items-center justify-between
-          text-sm
-        ">
-
-          <label className="
-            flex items-center gap-2
-            text-gray-400
-          ">
-
+        <div
+          className="
+            flex items-center justify-between
+            text-sm
+          "
+        >
+          <label
+            className="
+              flex items-center gap-2
+              text-gray-400
+            "
+          >
             <input type="checkbox" />
-
             Remember me
-
           </label>
 
           <button
@@ -216,26 +199,23 @@ window.location.href = "/";
             hover:bg-cyan-300
           "
         >
-
           {loading
             ? "Signing In..."
             : "Access Dashboard"}
 
           <ArrowRight size={20} />
-
         </button>
 
         {/* FOOTER */}
 
-        <div className="
-          border-t border-white/10
-          pt-6 text-center
-        ">
-
+        <div
+          className="
+            border-t border-white/10
+            pt-6 text-center
+          "
+        >
           <p className="text-gray-400">
-
             Don&apos;t have an account?
-
           </p>
 
           <Link
@@ -250,14 +230,12 @@ window.location.href = "/";
           </Link>
 
           <div className="mt-5">
-
             <Link
               href="/auth/business/login"
               className="text-sm text-gray-500"
             >
               Business Portal →
             </Link>
-
           </div>
         </div>
       </form>

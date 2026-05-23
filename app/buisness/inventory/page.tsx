@@ -29,7 +29,7 @@ export default function InventoryPage() {
   const { data, error } = await supabase
     .from("products")
     .select("*")
-    .eq("seller_id", user.id);
+    .eq("seller_id", (user as any).id);
 
   if (!error && data) {
     setProducts(data);

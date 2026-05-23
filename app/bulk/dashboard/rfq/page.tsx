@@ -41,7 +41,7 @@ export default function RFQPage() {
         .from("rfqs")
         .insert([
           {
-            user_id: user.id,
+            user_id: (user as any).id,
             company_name:
               companyName,
             product_name:

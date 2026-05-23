@@ -51,7 +51,7 @@ export default function AddProductPage() {
             image,
             category,
             stock: Number(stock),
-            seller_id: user.id,
+           seller_id: (user as any).id || "demo-user",
           },
         ]);
 
