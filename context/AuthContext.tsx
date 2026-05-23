@@ -7,109 +7,57 @@ import {
   useState,
 } from "react";
 
-import { supabase } from "@/lib/supabase";
-
 type UserType = {
-  id: string;
+  name: string;
   email: string;
-  account_type: string;
-} | null;
-
-type AuthContextType = {
-  user: UserType;
-  loading: boolean;
-  logout: () => Promise<void>;
 };
 
-const AuthContext =
-  createContext<AuthContextType>({
-    user: null,
-    loading: true,
-    logout: async () => {},
-  });
+type AuthContextType = {
+  user: UserType | null;
+  login: (user: UserType) => void;
+  logout: () => void;
+};
+
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  login: () => {},
+  logout: () => {},
+});
 
 export function AuthProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] =
-    useState<UserType>(null);
-
-  const [loading, setLoading] =
-    useState(true);
-
-  async function fetchProfile(
-    authUser: any
-  ) {
-    if (!authUser) {
-      setUser(null);
-      setLoading(false);
-      return;
-    }
-
-    const { data: profile } =
-      await supabase
-        .from("profiles")
-        .select("account_type")
-        .eq("id", authUser.id)
-        .single();
-
-    setUser({
-      id: authUser.id,
-      email: authUser.email || "",
-      account_type:
-        profile?.account_type ||
-        "personal",
-    });
-
-    setLoading(false);
-  }
+  const [user, setUser] = useState<UserType | null>(null);
 
   useEffect(() => {
-    async function loadUser() {
-      const {
-        data: { user },
-      } =
-        await supabase.auth.getUser();
+    const storedUser = localStorage.getItem("mc_user");
 
-      await fetchProfile(user);
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
-
-    loadUser();
-
-    const {
-      data: listener,
-    } =
-      supabase.auth.onAuthStateChange(
-        async (
-          _event,
-          session
-        ) => {
-          await fetchProfile(
-            session?.user
-          );
-        }
-      );
-
-    return () => {
-      listener.subscription.unsubscribe();
-    };
   }, []);
 
-  async function logout() {
-    await supabase.auth.signOut();
+  const login = (userData: UserType) => {
+    localStorage.setItem(
+      "mc_user",
+      JSON.stringify(userData)
+    );
 
+    setUser(userData);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("mc_user");
     setUser(null);
-
-    window.location.href = "/";
-  }
+  };
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        loading,
+        login,
         logout,
       }}
     >
@@ -118,5 +66,4 @@ export function AuthProvider({
   );
 }
 
-export const useAuth = () =>
-  useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext);

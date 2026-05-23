@@ -73,3 +73,68 @@ body::before {
   pointer-events: none;
   z-index: -1;
 }
+body {
+  background: #020617;
+  color: white;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.saas-card {
+  background: #081225;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 24px;
+}
+
+.saas-button {
+  background: #2563eb;
+  transition: 0.2s;
+}
+
+.saas-button:hover {
+  background: #1d4ed8;
+}
+
+.saas-muted {
+  color: #94a3b8;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  transition-property:
+    background-color,
+    border-color,
+    color,
+    fill,
+    stroke,
+    opacity,
+    box-shadow,
+    transform;
+
+  transition-duration: 200ms;
+
+  transition-timing-function: ease;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020817;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0f172a;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #22d3ee;
+}

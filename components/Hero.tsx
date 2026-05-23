@@ -1,90 +1,224 @@
+"use client";
+
+import Link from "next/link";
+
+import { motion } from "framer-motion";
+
+import { ShieldCheck } from "lucide-react";
+
 export default function Hero() {
+
   return (
-    <section className="relative overflow-hidden hero-grid border-b border-white/10">
+    <section
+      className="
+        relative
+        overflow-hidden
+        px-6
+        pt-16
+      "
+    >
 
-      {/* BLUE GLOW */}
-      <div className="absolute top-20 right-20 w-125 h-125 bg-blue-500/20 blur-[120px] rounded-full"></div>
+      {/* BACKGROUND GLOW */}
 
-      <div className="container-custom min-h-[88vh] flex flex-col lg:flex-row items-center justify-between gap-20 py-20">
+      <div
+        className="
+          absolute
+          right-0 top-0
+          h-[500px] w-[500px]
+          rounded-full
+          bg-cyan-500/10
+          blur-3xl
+        "
+      />
 
-        {/* LEFT SIDE */}
-        <div className="flex-1 z-10">
+      <div
+        className="
+          mx-auto
+          grid
+          max-w-7xl
+          gap-16
+          lg:grid-cols-2
+          lg:items-center
+        "
+      >
 
-          <div className="inline-flex items-center px-4 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-sm mb-8">
-            AI Powered Semiconductor Marketplace
+        {/* LEFT */}
+
+        <motion.div
+
+          initial={{
+            opacity: 0,
+            y: 40,
+          }}
+
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+
+          transition={{
+            duration: 0.6,
+          }}
+        >
+
+          {/* BADGE */}
+
+          <div
+            className="
+              inline-flex
+              items-center gap-2
+              rounded-full
+              border border-cyan-400/20
+              bg-cyan-400/10
+              px-5 py-2
+              text-cyan-300
+            "
+          >
+
+            <ShieldCheck size={18} />
+
+            Trusted Semiconductor Marketplace
+
           </div>
 
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight">
+          {/* TITLE */}
 
-            Powering the Future
+          <h1
+            className="
+              mt-8
+              text-7xl
+              font-black
+              leading-[1.05]
+              tracking-tight
+              text-white
+            "
+          >
+            Enterprise
             <br />
-
-            with Smart
-            <span className="text-blue-500">
-              {" "}Microchip
-            </span>
-
+            Semiconductor
             <br />
-
-            Solutions
-
+            Marketplace
           </h1>
 
-          <p className="text-gray-400 text-lg mt-8 max-w-xl leading-relaxed">
-            High-performance microchips and electronic components
-            engineered for industrial systems, robotics, IoT infrastructure,
-            embedded computing and AI hardware.
+          {/* TEXT */}
+
+          <p
+            className="
+              mt-8
+              max-w-2xl
+              text-xl
+              leading-9
+              text-gray-400
+            "
+          >
+            Source processors, GPUs,
+            AI accelerators,
+            microcontrollers,
+            and enterprise hardware
+            directly from verified suppliers.
           </p>
 
           {/* BUTTONS */}
-          <div className="flex flex-wrap gap-5 mt-10">
 
-            <button className="px-8 h-14 rounded-2xl bg-blue-600 hover:bg-blue-700 transition-all duration-300 font-semibold shadow-lg shadow-blue-500/30">
-              Explore Products
-            </button>
+          <div
+            className="
+              mt-10
+              flex flex-wrap gap-5
+            "
+          >
 
-            <button className="px-8 h-14 rounded-2xl border border-white/10 hover:border-blue-500 hover:bg-blue-500/10 transition-all duration-300">
-              Request Quote
-            </button>
+            <Link
+              href="/products"
+              className="
+                rounded-2xl
+                bg-cyan-400
+                px-8 py-5
+                text-lg
+                font-bold
+                text-black
+                transition-all
+                hover:bg-cyan-300
+              "
+            >
+              Browse Products
+            </Link>
+
+            <Link
+              href="/auth/business/register"
+              className="
+                rounded-2xl
+                border border-white/10
+                bg-white/5
+                px-8 py-5
+                text-lg
+                font-semibold
+                text-white
+                transition-all
+                hover:bg-white/10
+              "
+            >
+              Become Supplier
+            </Link>
 
           </div>
 
-          {/* STATS */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mt-16">
+        </motion.div>
 
-            {[
-              "10K+ Components",
-              "Global Shipping",
-              "Secure Payments",
-              "24/7 Support",
-            ].map((item) => (
-              <div
-                key={item}
-                className="bg-[#0B1120]/80 border border-white/10 rounded-2xl p-5 backdrop-blur-md hover:border-blue-500/30 transition"
-              >
-                <p className="text-sm text-gray-300 font-medium">
-                  {item}
-                </p>
-              </div>
-            ))}
+        {/* RIGHT CARD */}
+
+        <motion.div
+
+          initial={{
+            opacity: 0,
+            x: 40,
+          }}
+
+          animate={{
+            opacity: 1,
+            x: 0,
+          }}
+
+          transition={{
+            duration: 0.6,
+          }}
+
+          className="
+            rounded-[36px]
+            border border-white/10
+            bg-[#081225]
+            p-8
+            shadow-2xl
+            shadow-cyan-500/10
+          "
+        >
+
+          <div
+            className="
+              flex h-[500px]
+              items-center
+              justify-center
+              rounded-[28px]
+              bg-gradient-to-br
+              from-cyan-500/10
+              to-blue-500/5
+            "
+          >
+
+            <div
+              className="
+                text-[140px]
+                drop-shadow-[0_0_40px_rgba(34,211,238,0.3)]
+              "
+            >
+              💾
+            </div>
 
           </div>
-        </div>
 
-        {/* RIGHT SIDE */}
-        <div className="flex-1 flex justify-center relative">
+        </motion.div>
 
-          {/* GLOW */}
-          <div className="absolute w-112.5 h-112.5 bg-blue-500/20 blur-[120px] rounded-full"></div>
-
-          <img
-            src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop"
-            alt="chip"
-            className="relative z-10 w-full max-w-162.5 rounded-[40px] border border-blue-500/20 shadow-2xl shadow-blue-500/20"
-          />
-
-        </div>
       </div>
+
     </section>
   );
 }

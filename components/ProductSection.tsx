@@ -1,73 +1,90 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
-import { supabase } from "../lib/supabase";
-import { Product } from "../types/product";
-import { useSearch } from "../context/SearchContext";
+import SkeletonCard from "./SkeletonCard";
+
+const products = [
+  {
+    title: "NVIDIA H100 GPU",
+    category: "AI Accelerator",
+    price: "$24,999",
+    stock: "Bulk Available",
+  },
+
+  {
+    title: "AMD EPYC 9654",
+    category: "Server CPU",
+    price: "$11,200",
+    stock: "Enterprise Stock",
+  },
+
+  {
+    title: "Intel Xeon Max",
+    category: "Data Center CPU",
+    price: "$8,499",
+    stock: "Ready to Ship",
+  },
+
+  {
+    title: "FPGA Dev Board",
+    category: "Development",
+    price: "$1,299",
+    stock: "Limited Units",
+  },
+];
 
 export default function ProductSection() {
 
-  const [products, setProducts] = useState<Product[]>([]);
-
-  const { search } = useSearch();
-const filteredProducts = products.filter((product) =>
-  product.name.toLowerCase().includes(search.toLowerCase())
-);
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  async function fetchProducts() {
-
-    const { data, error } = await supabase
-      .from("products")
-      .select("*");
-
-    if (!error && data) {
-      setProducts(data);
-    }
-  }
-
+  const loading = false;
   return (
-    <section className="py-24">
+    <section className="mt-20">
 
-      <div className="container-custom">
+      <div className="mb-10 flex items-center justify-between">
 
-        <div className="mb-14 flex items-center justify-between">
+        <div>
+          <h2 className="text-4xl font-bold text-white">
+            Featured Products
+          </h2>
 
-          <div>
-
-            <p className="mb-2 font-medium text-blue-500">
-              PRODUCTS
-            </p>
-
-            <h2 className="text-5xl font-bold">
-              Featured Components
-            </h2>
-
-          </div>
-
+          <p className="mt-2 text-gray-400">
+            Trending semiconductor inventory
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4">
-
-          {filteredProducts.map((product) => (
-
-           <ProductCard
-  key={product.id}
-  name={product.name}
-  price={product.price}
-  image={product.image}
-  category={product.category}
-/>
-
-          ))}
-
-        </div>
-
+        <button className="
+          rounded-xl
+          border border-white/10
+          px-5 py-3
+          text-white
+          hover:bg-white/5
+        ">
+          View All
+        </button>
       </div>
 
+      <div
+  className="
+    grid gap-6
+    sm:grid-cols-2
+    xl:grid-cols-4
+  "
+>
+
+  {loading
+    ? Array.from({ length: 4 }).map(
+        (_, index) => (
+          <SkeletonCard
+            key={index}
+          />
+        )
+      )
+
+    : products.map((product) => (
+        <ProductCard
+          key={product.title}
+          {...product}
+        />
+      ))}
+
+</div>
     </section>
   );
 }

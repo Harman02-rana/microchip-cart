@@ -1,61 +1,41 @@
-"use client";
-
-import { useAuth } from "@/context/AuthContext";
-
-export default function BulkDashboardPage() {
-  const { user } = useAuth();
-
+export default function BusinessDashboard() {
   return (
-    <div className="min-h-screen bg-black text-white px-6 py-12">
+    <div className="min-h-screen bg-[#020617] p-10 text-white">
 
-      <div className="max-w-7xl mx-auto">
+      <h1 className="mb-6 text-5xl font-black">
+        BUSINESS DASHBOARD
+      </h1>
 
-        <h1 className="text-5xl font-black mb-4">
-          Bulk Buyer Dashboard
-        </h1>
+      <div className="grid grid-cols-3 gap-6">
 
-        <p className="text-zinc-400 text-xl mb-12">
-          Welcome {user?.email}
-        </p>
+        <div className="rounded-3xl border border-blue-500/20 bg-[#081120] p-8">
+          <h2 className="mb-3 text-2xl font-bold">
+            Inventory
+          </h2>
 
-        <div className="grid md:grid-cols-3 gap-8">
+          <p className="text-zinc-400">
+            Manage semiconductor stock
+          </p>
+        </div>
 
-          <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
+        <div className="rounded-3xl border border-blue-500/20 bg-[#081120] p-8">
+          <h2 className="mb-3 text-2xl font-bold">
+            Orders
+          </h2>
 
-            <h2 className="text-2xl font-bold mb-4">
-              RFQs
-            </h2>
+          <p className="text-zinc-400">
+            Bulk order tracking
+          </p>
+        </div>
 
-            <p className="text-zinc-400">
-              Request quotations for large semiconductor orders.
-            </p>
+        <div className="rounded-3xl border border-blue-500/20 bg-[#081120] p-8">
+          <h2 className="mb-3 text-2xl font-bold">
+            GST Verification
+          </h2>
 
-          </div>
-
-          <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-
-            <h2 className="text-2xl font-bold mb-4">
-              Bulk Orders
-            </h2>
-
-            <p className="text-zinc-400">
-              Manage enterprise-level purchases.
-            </p>
-
-          </div>
-
-          <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-8">
-
-            <h2 className="text-2xl font-bold mb-4">
-              Supplier Network
-            </h2>
-
-            <p className="text-zinc-400">
-              Connect directly with verified chip suppliers.
-            </p>
-
-          </div>
-
+          <p className="text-zinc-400">
+            Business authentication panel
+          </p>
         </div>
 
       </div>
